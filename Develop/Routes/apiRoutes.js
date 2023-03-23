@@ -3,12 +3,20 @@ const router = express.Router();
 const path = require('path');
 const fs = require('fs');
 const noteData = require('../db/db.json');
+const uniqid = require('uniqid');
 
-router.get('/api/notes', (req, res) => {
-    res.json(noteData);
+router.get('/notes', (req, res) => {
+  fs.readFile('Develop/db/db.json', 'utf8', (err, data) => {
+    if (err) {
+      console.error(err);
+    } else {
+      const parsedNotes = JSON.parse(data);
+      res.json(parsedNotes);
+    }
+  });
 });
 
-router.post('/api/notes', (req, res) => {
+router.post('/notes', (req, res) => {
  
   console.info(`${req.method} request received to add a review`);
 
@@ -16,11 +24,12 @@ router.post('/api/notes', (req, res) => {
 
   if (title && text) {
     const newNote = {
+      id: uniqid(),
       title,
       text,
     };
 
-    fs.readFile('../db/db.json', 'utf8', (err, data) => {
+    fs.readFile('Develop/db/db.json', 'utf8', (err, data) => {
       if (err) {
         console.error(err);
       } else {
@@ -29,13 +38,14 @@ router.post('/api/notes', (req, res) => {
         parsedNotes.push(newNote);
 
         fs.writeFile(
-          './db/db.json',
-          JSON.stringify(parsedNotes, null, 4),   // clarify this number 4 with TA
+          'Develop/db/db.json',
+          JSON.stringify(parsedNotes), 
           (writeErr) =>
             writeErr
               ? console.error(writeErr)
               : console.info('Successfully updated notes!')
         );
+        console.log(parsedNotes);
       }
     });
 

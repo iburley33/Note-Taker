@@ -3,14 +3,15 @@ const path = require('path');
 const api = require('./Routes/apiRoutes');
 const html = require('./Routes/htmlRoutes');
 
-const PORT = /*process.env.PORT ||*/ 3001;
+const PORT = process.env.PORT || 3001;
 
 const app = express();
 
+app.use(clog);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
-app.use('/api/notes', api);
+app.use(express.static('Develop/public'));
+app.use('/api', api);
 app.use('/', html);
 
 // set up routes for /notes as referred to in the provided code. 
