@@ -5,7 +5,7 @@ const fs = require('fs');
 const uniqid = require('uniqid');
 
 router.get('/notes', (req, res) => {
-  fs.readFile('../db/db.json', 'utf8', (err, data) => {
+  fs.readFile((path.join(__dirname, '../db/db.json')), 'utf8', (err, data) => {
     if (err) {
       console.error(err);
     } else {
@@ -28,7 +28,7 @@ router.post('/notes', (req, res) => {
       text,
     };
 
-    fs.readFile('../db/db.json', 'utf8', (err, data) => {
+    fs.readFile((path.join(__dirname, '../db/db.json')), 'utf8', (err, data) => {
       if (err) {
         console.error(err);
       } else {
@@ -37,7 +37,7 @@ router.post('/notes', (req, res) => {
         parsedNotes.push(newNote);
 
         fs.writeFile(
-          '../db/db.json',
+          (path.join(__dirname, '../db/db.json')),
           JSON.stringify(parsedNotes), 
           (writeErr) =>
             writeErr
