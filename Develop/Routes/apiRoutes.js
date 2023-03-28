@@ -2,11 +2,10 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const fs = require('fs');
-const noteData = require('../db/db.json');
 const uniqid = require('uniqid');
 
 router.get('/notes', (req, res) => {
-  fs.readFile('Develop/db/db.json', 'utf8', (err, data) => {
+  fs.readFile('../db/db.json', 'utf8', (err, data) => {
     if (err) {
       console.error(err);
     } else {
@@ -29,7 +28,7 @@ router.post('/notes', (req, res) => {
       text,
     };
 
-    fs.readFile('Develop/db/db.json', 'utf8', (err, data) => {
+    fs.readFile('../db/db.json', 'utf8', (err, data) => {
       if (err) {
         console.error(err);
       } else {
@@ -38,7 +37,7 @@ router.post('/notes', (req, res) => {
         parsedNotes.push(newNote);
 
         fs.writeFile(
-          'Develop/db/db.json',
+          '../db/db.json',
           JSON.stringify(parsedNotes), 
           (writeErr) =>
             writeErr
